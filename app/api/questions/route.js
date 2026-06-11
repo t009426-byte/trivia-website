@@ -80,5 +80,31 @@ export async function GET(request) {
     }
   })
 
-  return NextResponse.json(questions)
+  /* ── Translate every question + its options to Arabic ──────────────────
+     MyMemory is free, no API key needed, up to 10k chars/day.
+     We send one request per question: "Q ||| A ||| B ||| C ||| D"
+     All requests fire in parallel so latency ≈ one round-trip.
+  ──────────────────────────────────────────────────────────────────────── */
+  const SEP = ' ||| '
+
+  async function translateOne(q) {
+    const text = [q.q, ...q.o].join(SEP)
+    try {
+      const res  = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ar`,
+        { cache: 'no-store', signal: AbortSignal.timeout(8000) },
+      )
+      const data = await res.json()
+      const raw  = data?.responseData?.translatedText ?? ''
+      const parts = raw.split(SEP)
+      if (parts.length === 5) {
+        return { ...q, q: parts[0].trim(), o: parts.slice(1).map(p => p.trim()) }
+      }
+    } catch { /* timeout or network — fall back to English */ }
+    return q
+  }
+
+  const translated = await Promise.all(questions.map(translateOne))
+
+  return NextResponse.json(translated)
 }

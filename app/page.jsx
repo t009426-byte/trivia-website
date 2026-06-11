@@ -238,7 +238,7 @@ export default function TriviaGame() {
         <div className="screen" key="loading">
           <div className="card loading-card">
             <div className="spinner" />
-            <p className="loading-text">جارٍ تحميل الأسئلة…</p>
+            <p className="loading-text">جارٍ تحميل الأسئلة وترجمتها…</p>
             <p className="loading-sub">{TOPIC_META[topic]?.emoji} {TOPIC_META[topic]?.name}</p>
           </div>
         </div>
