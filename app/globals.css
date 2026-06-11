@@ -1,8 +1,11 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+html, body { height: 100%; }
+
 body {
   font-family: var(--font-cairo), sans-serif;
   min-height: 100vh;
+  height: 100%;
   background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
   display: flex;
   align-items: center;
@@ -253,7 +256,6 @@ body::after {
   background: #f3f4f6; padding: 4px 14px;
   border-radius: 999px; font-size:.8rem; font-weight:800;
   color: #6b7280; text-transform:uppercase; letter-spacing:.04em;
-  margin-bottom: 14px;
 }
 .q-text { font-weight:800; font-size:1.38rem; color:#111827; line-height:1.6; }
 
@@ -343,6 +345,43 @@ body::after {
   cursor:pointer; transition:background .2s, transform .2s;
 }
 .btn-outline:hover { background:#faf5ff; transform:translateY(-2px); }
+
+/* ══════════ LOADING ══════════ */
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 44px;
+  gap: 20px;
+}
+.spinner {
+  width: 64px; height: 64px;
+  border: 6px solid #e5e7eb;
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-weight:900; font-size:1.3rem; color:#111827; }
+.loading-sub  { font-weight:700; font-size:1.1rem;  color:#9ca3af; }
+
+/* ══════════ BADGE ROW ══════════ */
+.q-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.q-badge-row .q-badge { margin-bottom: 0; }
+
+.diff-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #f3f4f6; padding: 4px 12px;
+  border-radius: 999px; font-size: .78rem; font-weight: 800;
+  color: #6b7280; text-transform: uppercase; letter-spacing: .04em;
+}
 
 /* ══════════ RESPONSIVE ══════════ */
 @media (max-width:520px) {
